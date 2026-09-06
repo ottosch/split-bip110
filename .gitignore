@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.vscode/
+raw-txs.txt
+tx-report.txt
+split-bip110-linux
+split-bip110-macos
+split-bip110-win.exe
+SHASUMS*
+build-*
+*.csv

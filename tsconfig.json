@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs", // Specify module code generation
+    "outDir": "./dist",
+    "strict": true, // Enable all strict type-checking options
+    "rootDir": "src",
+    "esModuleInterop": true, // Enables emit interoperability between CommonJS and ES Modules
+    "skipLibCheck": true, // Skip type checking of all declaration files
+    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ], // Specify the directory containing type declarations
+  }
+}

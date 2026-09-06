@@ -1,0 +1,32 @@
+# Path to file with utxos
+utxo_file = "utxos.csv"
+
+# Network: mainnet or testnet. Default: mainnet
+network = "mainnet"
+
+[source_wallet]
+# Seed words (mnemonic) of the wallet to migrate from
+seed = "word1 word2 ... wordN"
+# Optional passphrase (BIP39). Default: empty string (no passphrase)
+passphrase = ""
+
+# Max number of addresses to derive when searching for UTXO private keys
+# You might need to increase this if the wallet is very deep
+# Default: 2000
+address_limit = 2000
+
+[destination_wallet]
+# xpub (or zpub etc) of the receiving wallet to derive the receiving addresses from
+xpub = ""
+
+# Address type to derive: segwit, taproot, legacy or p2sh. Default: segwit
+type = "segwit"
+
+[transaction]
+# Fee rate to use in sat/vb
+fee_rate = 1
+
+# Random fee increase in basis points to make it harder to determine the transactions come from the same wallet
+# Ex: if fee_rate is 5.15 and fee_variation is 20, fees will vary between 5.15 and 5.35
+# Default: 0
+fee_variation = 50
