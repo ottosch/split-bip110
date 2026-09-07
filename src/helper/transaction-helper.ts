@@ -22,7 +22,7 @@ export class TransactionHelper {
         const walletType = this._config.destinationWallet.scriptType;
         const recvXpub = this._config.destinationWallet.xpub.derive(0);
 
-        let xpubIndex = 0;
+        let xpubIndex = this._config.destinationWallet.startIndex;
 
         for (const utxoGroup of this._config.utxos) {
             const recipientPubkey = recvXpub.derive(xpubIndex);

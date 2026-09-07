@@ -11,7 +11,7 @@ Each UTXO is sent to a unique receive address on the destination wallet. UTXOs a
 
 Every input is signed with the [unified sighash](https://github.com/bitcoinknots/bitcoin/blob/8c85b1585dac23f964e2dd32045624de7f02aa58/doc/unified-sighash.md) (`SIGHASH_ALL | SIGHASH_UNIFIED`, hash type `0x21`), which is specific to the BIP110 chain. A transaction signed this way is **invalid on the regular BTC chain** (Bitcoin Core rejects it with "Signature hash type missing or not understood"), and therefore cannot be replayed onto it.
 
-To check your transactions, you can verify, for example, they are **valid** on [BIP110's explorer](https://mempool.guide/tx/test) and **invalid** on [BTC's explorer](https://mempool.space/tx/test). The `/test` URLs are for testnet — on mainnet drop the `/test` suffix.
+To check your transactions, you can verify, for example, they are **valid** on BIP110's [mempool.guide](https://mempool.guide/tx/test) and **invalid** on BTC's [mempool.space](https://mempool.space/tx/test).
 
 ## Setup
 
@@ -35,9 +35,7 @@ To consolidate specific UTXOs into one transaction, wrap them with brackets:
 
 ### 2. Create a new wallet to receive your BIP110 coins
 
-Create a new wallet to host only your BIP110 coins. Use your preferred method (Sparrow, Electrum, Iancoleman etc). Take note of the xpub.
-
-Make sure you can access this wallet on the BIP110 chain (same seed/keys, opened with BIP110-compatible software) — its coins will only exist there.
+Create a new wallet to host only your BIP110 coins. Use your preferred method (Sparrow, Electrum, Iancoleman's BIP39 etc). Take note of the xpub.
 
 ### 3. Configure `config.toml`
 

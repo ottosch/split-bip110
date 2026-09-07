@@ -22,6 +22,11 @@ xpub = ""
 # Address type to derive: segwit, taproot, legacy or p2sh. Default: segwit
 type = "segwit"
 
+# If the BIP110 wallet already has history, you can specify the first index to use (0-based) *OR* first address to start from
+# Default: 0
+initial_index = 0
+# initial_address = ""
+
 [transaction]
 # Fee rate to use in sat/vb
 fee_rate = 1

@@ -10,6 +10,7 @@ export type Config = {
     },
     destinationWallet: {
         xpub: BIP32Interface,
+        startIndex: number,
         scriptType: ScriptType,
     },
     addressLimit: number,

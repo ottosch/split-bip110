@@ -37,6 +37,7 @@ export class ConfigHelper {
             },
             destinationWallet: {
                 xpub: this._walletXpub,
+                startIndex: this.parseStartIndex(),
                 scriptType: this._walletType,
             },
             addressLimit: this._addressLimit,
@@ -115,6 +116,65 @@ export class ConfigHelper {
                 console.error(`Invalid wallet type: ${cfgType}`);
                 process.exit(1);
         }
+    }
+
+    private parseStartIndex(): number {
+        const cfgIndex = this._cfgContent.destination_wallet.initial_index;
+        const cfgAddress = this._cfgContent.destination_wallet.initial_address;
+
+        if (cfgIndex !== undefined) {
+            if (cfgAddress !== undefined) {
+                console.error("initial_index and initial_address can't both be defined");
+                process.exit(1);
+            }
+
+            const initialIndex = Number(String(cfgIndex));
+            if (isNaN(initialIndex) || !Number.isSafeInteger(initialIndex) || initialIndex < 0) {
+                console.error(`Invalid initial_index: ${cfgIndex}`);
+                process.exit(1);
+            }
+
+            return initialIndex;
+        }
+
+        if (cfgAddress === undefined) {
+            return 0;
+        }
+
+        if (typeof(cfgAddress) !== "string") {
+            console.error(`invalid initial_address: ${cfgAddress}`);
+            process.exit(1);
+        }
+
+        try {
+            const addrScriptType = ScriptType.fromAddress(cfgAddress, this._network);
+            addrScriptType.toPayment(cfgAddress, undefined, this._network); // validate address
+            if (addrScriptType !== this._walletType) {
+                throw new Error(`Types of initial_address [${addrScriptType}] and wallet [${this._walletType}] do not match`);
+            }
+
+            return this.getIndexOfInitialAddress();
+        } catch (e) {
+            const err = e instanceof Error ? e.message : e;
+            console.error(err);
+            process.exit(1);
+        }
+    }
+
+    private getIndexOfInitialAddress(): number {
+        const initAddr = this._cfgContent.destination_wallet.initial_address;
+        const scriptType = ScriptType.fromAddress(initAddr, this._network);
+        const recvXpub = this._walletXpub?.derive(0);
+
+        for (let i = 0; i < this._addressLimit; i++) {
+            const pubkey = recvXpub?.derive(i).publicKey as Buffer;
+            const derivedAddress = scriptType.toPayment(undefined, pubkey, this._network).address;
+            if (derivedAddress === initAddr) {
+                return i;
+            }
+        }
+
+        throw new Error(`${initAddr} doesn't seem to be part of the xpub. Tried first ${this._addressLimit} addresses`);
     }
 
     private parseFeeRate(): number {
