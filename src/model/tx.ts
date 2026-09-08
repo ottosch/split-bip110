@@ -6,15 +6,21 @@ export class Tx {
     private _psbt: Psbt;
     private _utxos: UTXO[];
     private _transaction: Transaction;
+    private _addressIndex?: number;
 
-    constructor(psbt: Psbt, utxos: UTXO[]) {
+    constructor(psbt: Psbt, utxos: UTXO[], addressIndex?: number) {
         this._psbt = psbt;
         this._transaction = psbt.extractTransaction();
         this._utxos = utxos;
+        this._addressIndex = addressIndex;
     }
 
     get transaction(): Transaction {
         return this._transaction;
+    }
+
+    get addressIndex(): number | undefined {
+        return this._addressIndex;
     }
 
     writeReport(): string {
@@ -53,7 +59,7 @@ export class Tx {
         const output = this._psbt.txOutputs[0];
         const outputValue = (output.value / 1e8).toFixed(8);
         report.push("To:");
-        report.push(`  ${output.address}`);
+        report.push(`  ${output.address}${this._addressIndex !== undefined ? ` (address #${this._addressIndex})` : ""}`);
         report.push(`  Value: ${outputValue} BTC`);
 
         const size = this._transaction.virtualSize();

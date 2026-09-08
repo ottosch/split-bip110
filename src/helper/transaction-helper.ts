@@ -33,7 +33,7 @@ export class TransactionHelper {
             const finalPsbt = this.createTx(utxoGroup, recipientAddress, actualFee);
             this.validateOutputValue(finalPsbt, utxoGroup);
 
-            txs.push(new Tx(finalPsbt, utxoGroup));
+            txs.push(new Tx(finalPsbt, utxoGroup, xpubIndex));
 
             xpubIndex++;
         }
